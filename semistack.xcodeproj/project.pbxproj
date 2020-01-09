@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E428DCF223C79F6D007CDC3C /* instruction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E428DCF023C79F6D007CDC3C /* instruction.cpp */; };
+		E428DCF523C7A225007CDC3C /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E428DCF323C7A225007CDC3C /* util.cpp */; };
+		E428DCF823C7A88B007CDC3C /* module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E428DCF623C7A88B007CDC3C /* module.cpp */; };
 		E4ED361423C58CEA00AAB637 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4ED361323C58CEA00AAB637 /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -23,6 +26,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E428DCEF23C79D7A007CDC3C /* logger.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = logger.hpp; sourceTree = "<group>"; };
+		E428DCF023C79F6D007CDC3C /* instruction.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = instruction.cpp; sourceTree = "<group>"; };
+		E428DCF123C79F6D007CDC3C /* instruction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = instruction.hpp; sourceTree = "<group>"; };
+		E428DCF323C7A225007CDC3C /* util.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = util.cpp; sourceTree = "<group>"; };
+		E428DCF423C7A225007CDC3C /* util.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = util.hpp; sourceTree = "<group>"; };
+		E428DCF623C7A88B007CDC3C /* module.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = module.cpp; sourceTree = "<group>"; };
+		E428DCF723C7A88B007CDC3C /* module.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = module.hpp; sourceTree = "<group>"; };
+		E428DCF923C7AD5A007CDC3C /* doctest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = doctest.h; sourceTree = "<group>"; };
 		E4ED361023C58CEA00AAB637 /* semistack */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = semistack; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4ED361323C58CEA00AAB637 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -58,6 +69,14 @@
 			isa = PBXGroup;
 			children = (
 				E4ED361323C58CEA00AAB637 /* main.cpp */,
+				E428DCF623C7A88B007CDC3C /* module.cpp */,
+				E428DCF723C7A88B007CDC3C /* module.hpp */,
+				E428DCF923C7AD5A007CDC3C /* doctest.h */,
+				E428DCEF23C79D7A007CDC3C /* logger.hpp */,
+				E428DCF123C79F6D007CDC3C /* instruction.hpp */,
+				E428DCF023C79F6D007CDC3C /* instruction.cpp */,
+				E428DCF323C7A225007CDC3C /* util.cpp */,
+				E428DCF423C7A225007CDC3C /* util.hpp */,
 			);
 			path = semistack;
 			sourceTree = "<group>";
@@ -119,7 +138,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E428DCF223C79F6D007CDC3C /* instruction.cpp in Sources */,
+				E428DCF823C7A88B007CDC3C /* module.cpp in Sources */,
 				E4ED361423C58CEA00AAB637 /* main.cpp in Sources */,
+				E428DCF523C7A225007CDC3C /* util.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,7 +154,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -190,7 +212,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -222,6 +244,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = fast;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -238,6 +261,7 @@
 		E4ED361823C58CEA00AAB637 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -246,6 +270,7 @@
 		E4ED361923C58CEA00AAB637 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
