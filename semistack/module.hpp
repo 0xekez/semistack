@@ -17,14 +17,19 @@ namespace vm {
 
 class Module
 {
-private:
+public:
     std::string _name;
     std::vector<Instruction> _instructions;
     
-public:
+    Module(std::string name): _name(std::move(name)) {}
+    
     void addInstruction(Instruction i)
     {
         _instructions.push_back(std::move(i));
+    }
+    bool operator==(const Module& rhs)
+    {
+        return _name == rhs._name && _instructions == rhs._instructions;
     }
 };
 

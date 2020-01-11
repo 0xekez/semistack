@@ -17,8 +17,29 @@ namespace vm
 
 enum class InstType
 {
-    pi,    // push immediate
-    puts   // pops and prints top of stack.
+    pi,     // Push immediate.
+    
+    puts,   // Pops and prints top of stack.
+    copy,   // Coppies the value on top of the stack.
+    
+    exit,   // Stops execution.
+    
+    add,
+    sub,
+    mul,
+    div,
+    
+    jump,
+    call,
+    
+    // These pop the compared values off the stack.
+    jeq,   // Jump equal.
+    jneq,  // Jump not equal.
+    jlt,   // Jump less than.
+    jgt,   // Jump greater than.
+    
+    label, // Represents a jumpable location in code. This should only appear in
+           // before the code has entered the preprocessor.
 };
 
 using Value = std::variant<float, std::string>;
@@ -27,6 +48,7 @@ using Instruction = std::pair<InstType, Immediate>;
 
 // to_string methods for VM types.
 std::string to_string(InstType i);
+std::string to_string(Value v);
 std::string to_string(Immediate i);
 std::string to_string(Instruction i);
 }

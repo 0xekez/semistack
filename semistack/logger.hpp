@@ -10,7 +10,7 @@
 #include <string>
 #include <iostream>
 
-#include "module.hpp";
+#include "module.hpp"
 
 namespace {
 
@@ -46,9 +46,31 @@ public:
         exit(1);
     }
     
+    void maintain(bool cond, std::string what)
+    {
+        if ( ! cond ) fatalError(std::move(what));
+    }
+    
     std::string getHistory()
     {
         return _history;
+    }
+    
+    std::string dumpModule(const vm::Module& m)
+    {
+        auto& ilist = m._instructions;
+        std::string res{"Module: "};
+        res += m._name + "\n";
+        res += std::string(m._name.size() + 8, '-') + "\n";
+        
+        for(const auto& i : ilist)
+        {
+            res += vm::to_string(i);
+            res += "\n";
+        }
+
+        std::cout << res;
+        return res;
     }
 };
 
