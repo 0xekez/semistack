@@ -27,6 +27,10 @@ public:
     {
         _instructions.push_back(std::move(i));
     }
+    void addInstruction(InstType type, Immediate im = std::nullopt)
+    {
+        _instructions.push_back({std::move(type), std::move(im)});
+    }
     bool operator==(const Module& rhs)
     {
         return _name == rhs._name && _instructions == rhs._instructions;

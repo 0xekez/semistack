@@ -42,6 +42,16 @@ std::string vm::to_string(InstType i)
             return "call";
         case InstType::copy:
             return "copy";
+        case InstType::sl:
+            return "sl";
+        case InstType::ll:
+            return "ll";
+        case InstType::sg:
+            return "sg";
+        case InstType::lg:
+            return "lg";
+        case InstType::ret:
+            return "ret";
         default:
             logger()->error("Unhandled instruction type in to_string.");
             return "";

@@ -16,57 +16,69 @@
 #define DOCTEST_CONFIG_IMPLEMENT
 #include "doctest.h"
 
-int main(int argc, const char * argv[]) {
-//    doctest::Context ctx;
-//
-//    // --exit to just run tests, --no-run to skip running them.
-//    ctx.applyCommandLine(argc, argv);
-//
-//    // Don't break in the debugger.
-//    ctx.setOption("no-breaks", true);
-//
-//    int res = ctx.run();
-//
-//    // Query flags (and --exit) rely on this.
-//    if (ctx.shouldExit())
-//        return res;
-    
-    vm::Module m("loop");
-    
-    //  pi 10     | 10
-    //  copy      | 10 10
-    //  pi 0      | 10 10 0
-    //  jlt done  | 10
-    //loop:
-    //  pi -1     | 10 -1
-    //  add       | 9
-    //  copy      | 9 9
-    //  puts      | 9
-    //  copy      | 9 9
-    //  pi 0      | 9 9 0
-    //  jgt loop  | 9
-    //done:
-    //  exit
-    
-    m.addInstruction({vm::InstType::pi, 1000000});
-    m.addInstruction({vm::InstType::copy, std::nullopt});
-    m.addInstruction({vm::InstType::pi, 0});
-    m.addInstruction({vm::InstType::jlt, "done"});
-    m.addInstruction({vm::InstType::label, "loop"});
-    m.addInstruction({vm::InstType::pi, -1});
-    m.addInstruction({vm::InstType::add, std::nullopt});
-//    m.addInstruction({vm::InstType::copy, std::nullopt});
-//    m.addInstruction({vm::InstType::puts, std::nullopt});
-    m.addInstruction({vm::InstType::copy, std::nullopt});
-    m.addInstruction({vm::InstType::pi, 0});
-    m.addInstruction({vm::InstType::jgt, "loop"});
-    m.addInstruction({vm::InstType::label, "done"});
-    m.addInstruction({vm::InstType::exit, std::nullopt});
-    
-    vm::VM v;
-    vm::transform::assembleModule(m);
-    v.addModule(std::move(m));
-    v.run("loop");
+using namespace vm;
 
+int main(int argc, const char * argv[]) {
+    doctest::Context ctx;
+
+    // --exit to just run tests, --no-run to skip running them.
+    ctx.applyCommandLine(argc, argv);
+
+    // Don't break in the debugger.
+    ctx.setOption("no-breaks", true);
+
+    int res = ctx.run();
+
+    // Query flags (and --exit) rely on this.
+    if (ctx.shouldExit())
+        return res;
+
+    vm::Module main("main");
+    vm::Module fib("fib");
+    
+    main.addInstruction(InstType::pi, 8);
+    main.addInstruction(InstType::call, "fib");
+    main.addInstruction(InstType::puts);
+    main.addInstruction(InstType::exit);
+    
+    //  return n < 2 ? n : fib(n - 1) + fib(n - 2)
+    //
+    //  copy        | n n
+    //  pi 2        | n n 2
+    //  jlt done    | n
+    //  copy        | n n
+    //  sl 1        | n
+    //  pi 1        | n 1
+    //  sub         | n-1
+    //  call fib    | fib(n-1)
+    //  ll 1        | fib(n-1) n
+    //  pi 2        | fib(n-1) n 2
+    //  sub         | fib(n-1) n-2
+    //  call fib    | fib(n-1) fib(n-2)
+    //  add         | fib(n)
+    //done:
+    //  ret
+    
+    fib.addInstruction(InstType::copy);
+    fib.addInstruction(InstType::pi, 2);
+    fib.addInstruction(InstType::jlt, "done");
+    fib.addInstruction(InstType::copy);
+    fib.addInstruction(InstType::sl, 1);
+    fib.addInstruction(InstType::pi, 1);
+    fib.addInstruction(InstType::sub);
+    fib.addInstruction(InstType::call, "fib");
+    fib.addInstruction(InstType::ll, 1);
+    fib.addInstruction(InstType::pi, 2);
+    fib.addInstruction(InstType::sub);
+    fib.addInstruction(InstType::call, "fib");
+    fib.addInstruction(InstType::add);
+    fib.addInstruction(InstType::label, "done");
+    fib.addInstruction(InstType::ret);
+
+    vm::VM v;
+    v.addModule(std::move(main));
+    v.addModule(std::move(fib));
+    v.run("main");
+    
     return 0;
 }

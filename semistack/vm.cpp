@@ -46,10 +46,13 @@ ExitStatus vm::VM::run(std::string module_name)
     // Push a CallFrame for the module.
     _callStack.emplace(where->second);
     
-    logger()->debug("Running module with index: " +
-                    std::to_string(where->second));
+    auto res = runModule(_modules.at(where->second));
     
-    return runModule(_modules.at(where->second));
+    if (_valueStack.size())
+    {
+        logger()->debug("Non empty call stack at end of execution.");
+    }
+    return res;
 }
 
 ExitStatus vm::VM::runModule(const Module& m)
@@ -84,6 +87,71 @@ ExitStatus VM::runInstruction(const Instruction& instruction)
             _valueStack.push(std::move(v));
             break;
         }
+        case InstType::sl:
+        {
+            Value v = getImmediateValue(instruction.second);
+            return std::visit( util::overloaded {
+                [&, this](std::string)
+                {
+                    logger()->error("String type in sl instruction.");
+                    return ExitStatus::error;
+                },
+                [&, this](float index)
+                {
+                    _callStack.top()._locals.at(index) = Value(_valueStack.top());
+                    _valueStack.pop();
+                    return ExitStatus::cont;
+                }
+            }, v);
+        }
+        case InstType::ll:
+        {
+            Value v = getImmediateValue(instruction.second);
+            return std::visit( util::overloaded {
+                [&, this](std::string)
+                {
+                    logger()->error("String type in ll instruction.");
+                    return ExitStatus::error;
+                },
+                [&, this](float index)
+                {
+                    _valueStack.emplace(_callStack.top()._locals.at(index));
+                    return ExitStatus::cont;
+                }
+            }, v);
+        }
+        case InstType::sg:
+        {
+            Value v = getImmediateValue(instruction.second);
+            return std::visit( util::overloaded {
+                [&, this](std::string)
+                {
+                    logger()->error("String type in sg instruction.");
+                    return ExitStatus::error;
+                },
+                [&, this](float index)
+                {
+                    _globals.at(index) = Value(_valueStack.top());
+                    return ExitStatus::cont;
+                }
+            }, v);
+        }
+        case InstType::lg:
+        {
+            Value v = getImmediateValue(instruction.second);
+            return std::visit( util::overloaded {
+                [&, this](std::string)
+                {
+                    logger()->error("String type in lg instruction.");
+                    return ExitStatus::error;
+                },
+                [&, this](float index)
+                {
+                    _valueStack.emplace(_globals.at(index));
+                    return ExitStatus::cont;
+                }
+            }, v);
+        }
         case InstType::puts:
         {
             Value v = _valueStack.top();
@@ -97,6 +165,11 @@ ExitStatus VM::runInstruction(const Instruction& instruction)
         case InstType::exit:
         {
             return ExitStatus::exit;
+        }
+        case InstType::ret:
+        {
+            _callStack.pop();
+            return ExitStatus::cont;
         }
         case InstType::add:
         {
@@ -495,4 +568,58 @@ TEST_CASE("Basic loop")
     v.run("loop");
     
     CHECK(baseline == output);
+}
+
+TEST_CASE("fib!")
+{
+    vm::Module main("main");
+    vm::Module fib("fib");
+    
+    main.addInstruction(InstType::pi, 8);
+    main.addInstruction(InstType::call, "fib");
+    main.addInstruction(InstType::puts);
+    main.addInstruction(InstType::exit);
+    
+    //  return n < 2 ? n : fib(n - 1) + fib(n - 2)
+    //
+    //  copy        | n n
+    //  pi 2        | n n 2
+    //  jlt done    | n
+    //  copy        | n n
+    //  sl 1        | n
+    //  pi 1        | n 1
+    //  sub         | n-1
+    //  call fib    | fib(n-1)
+    //  ll 1        | fib(n-1) n
+    //  pi 2        | fib(n-1) n 2
+    //  sub         | fib(n-1) n-2
+    //  call fib    | fib(n-1) fib(n-2)
+    //  add         | fib(n)
+    //done:
+    //  ret
+    
+    fib.addInstruction(InstType::copy);
+    fib.addInstruction(InstType::pi, 2);
+    fib.addInstruction(InstType::jlt, "done");
+    fib.addInstruction(InstType::copy);
+    fib.addInstruction(InstType::sl, 1);
+    fib.addInstruction(InstType::pi, 1);
+    fib.addInstruction(InstType::sub);
+    fib.addInstruction(InstType::call, "fib");
+    fib.addInstruction(InstType::ll, 1);
+    fib.addInstruction(InstType::pi, 2);
+    fib.addInstruction(InstType::sub);
+    fib.addInstruction(InstType::call, "fib");
+    fib.addInstruction(InstType::add);
+    fib.addInstruction(InstType::label, "done");
+    fib.addInstruction(InstType::ret);
+    
+    std::string output;
+    vm::VM v([&](std::string s){ output += s; });
+    
+    v.addModule(std::move(main));
+    v.addModule(std::move(fib));
+    v.run("main");
+    
+    CHECK(output == "21.000000");
 }

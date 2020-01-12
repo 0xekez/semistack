@@ -22,6 +22,7 @@
 #include "instruction.hpp"
 
 #include <vector>
+#include <array>
 #include <stack>
 #include <map>
 #include <functional>
@@ -46,7 +47,10 @@ struct CallFrame
     // The Module that this frame is executing.
     ModuleIndex _moduleIndex;
     // Local variables inside of this call frame.
-    std::vector<Value> _locals;
+    // NOTE: This means that we're restricting a program to only 256 local
+    // variables at a time. In exchange, we get some performance, and our sl, ll
+    // instructions are made simpler because they can just specify an index.
+    std::array<Value, 256> _locals;
     
     CallFrame(ModuleIndex mi): _moduleIndex(mi), _pc(0) {}
 };
@@ -68,7 +72,7 @@ private:
     
     std::function<void(std::string)> _outputFn;
     
-    std::vector<Value> _globals;
+    std::array<Value, 256> _globals;
     
     std::vector<Module> _modules;
     // Maps module name to module index.

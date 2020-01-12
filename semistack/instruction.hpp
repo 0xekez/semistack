@@ -18,11 +18,16 @@ namespace vm
 enum class InstType
 {
     pi,     // Push immediate.
+    sl,     // Store local.
+    ll,     // Load local.
+    sg,     // Store global.
+    lg,     // Load global.
     
     puts,   // Pops and prints top of stack.
     copy,   // Coppies the value on top of the stack.
     
     exit,   // Stops execution.
+    ret,    // Pops the current call frame and returns.
     
     add,
     sub,
