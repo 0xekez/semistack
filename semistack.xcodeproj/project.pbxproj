@@ -15,6 +15,17 @@
 		E428DD0723CBAFA2007CDC3C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E428DD0623CBAFA2007CDC3C /* main.cpp */; };
 		E428DD1023CBB12F007CDC3C /* parse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E428DD0E23CBB12F007CDC3C /* parse.cpp */; };
 		E428DD1323CBF660007CDC3C /* expression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E428DD1223CBF660007CDC3C /* expression.cpp */; };
+		E428DD6623CC266C007CDC3C /* transform.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E428DCFE23CA6A9F007CDC3C /* transform.hpp */; };
+		E428DD6723CC266C007CDC3C /* module.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E428DCF723C7A88B007CDC3C /* module.hpp */; };
+		E428DD6923CC266C007CDC3C /* logger.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E428DCEF23C79D7A007CDC3C /* logger.hpp */; };
+		E428DD6A23CC266C007CDC3C /* instruction.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E428DCF123C79F6D007CDC3C /* instruction.hpp */; };
+		E428DD6B23CC266C007CDC3C /* util.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E428DCF423C7A225007CDC3C /* util.hpp */; };
+		E428DD6C23CC267B007CDC3C /* vm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E428DCFA23C7FB69007CDC3C /* vm.cpp */; };
+		E428DD6D23CC267B007CDC3C /* transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E428DCFD23CA6A9F007CDC3C /* transform.cpp */; };
+		E428DD6E23CC267B007CDC3C /* module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E428DCF623C7A88B007CDC3C /* module.cpp */; };
+		E428DD6F23CC267B007CDC3C /* instruction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E428DCF023C79F6D007CDC3C /* instruction.cpp */; };
+		E428DD7023CC267B007CDC3C /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E428DCF323C7A225007CDC3C /* util.cpp */; };
+		E428DD7123CC26B3007CDC3C /* libsemistacklib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E428DD6123CC25DB007CDC3C /* libsemistacklib.a */; };
 		E4ED361423C58CEA00AAB637 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4ED361323C58CEA00AAB637 /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -58,7 +69,7 @@
 		E428DD0F23CBB12F007CDC3C /* parse.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = parse.hpp; sourceTree = "<group>"; };
 		E428DD1123CBB30B007CDC3C /* expression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = expression.hpp; sourceTree = "<group>"; };
 		E428DD1223CBF660007CDC3C /* expression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = expression.cpp; sourceTree = "<group>"; };
-		E428DD1823CBFCF8007CDC3C /* libvm.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libvm.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		E428DD6123CC25DB007CDC3C /* libsemistacklib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libsemistacklib.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4ED361023C58CEA00AAB637 /* semistack */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = semistack; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4ED361323C58CEA00AAB637 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -68,10 +79,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E428DD7123CC26B3007CDC3C /* libsemistacklib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E428DD1623CBFCF8007CDC3C /* Frameworks */ = {
+		E428DD5F23CC25DB007CDC3C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -100,12 +112,20 @@
 			path = lust;
 			sourceTree = "<group>";
 		};
+		E428DD5823CC2545007CDC3C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E4ED360723C58CEA00AAB637 = {
 			isa = PBXGroup;
 			children = (
 				E4ED361223C58CEA00AAB637 /* semistack */,
 				E428DD0523CBAFA2007CDC3C /* lust */,
 				E4ED361123C58CEA00AAB637 /* Products */,
+				E428DD5823CC2545007CDC3C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -114,7 +134,7 @@
 			children = (
 				E4ED361023C58CEA00AAB637 /* semistack */,
 				E428DD0423CBAFA2007CDC3C /* lust */,
-				E428DD1823CBFCF8007CDC3C /* libvm.dylib */,
+				E428DD6123CC25DB007CDC3C /* libsemistacklib.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -142,10 +162,15 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		E428DD1423CBFCF8007CDC3C /* Headers */ = {
+		E428DD5D23CC25DB007CDC3C /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E428DD6623CC266C007CDC3C /* transform.hpp in Headers */,
+				E428DD6723CC266C007CDC3C /* module.hpp in Headers */,
+				E428DD6923CC266C007CDC3C /* logger.hpp in Headers */,
+				E428DD6A23CC266C007CDC3C /* instruction.hpp in Headers */,
+				E428DD6B23CC266C007CDC3C /* util.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,22 +194,22 @@
 			productReference = E428DD0423CBAFA2007CDC3C /* lust */;
 			productType = "com.apple.product-type.tool";
 		};
-		E428DD1723CBFCF8007CDC3C /* vm */ = {
+		E428DD6023CC25DB007CDC3C /* semistacklib */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E428DD1923CBFCF8007CDC3C /* Build configuration list for PBXNativeTarget "vm" */;
+			buildConfigurationList = E428DD6223CC25DB007CDC3C /* Build configuration list for PBXNativeTarget "semistacklib" */;
 			buildPhases = (
-				E428DD1423CBFCF8007CDC3C /* Headers */,
-				E428DD1523CBFCF8007CDC3C /* Sources */,
-				E428DD1623CBFCF8007CDC3C /* Frameworks */,
+				E428DD5D23CC25DB007CDC3C /* Headers */,
+				E428DD5E23CC25DB007CDC3C /* Sources */,
+				E428DD5F23CC25DB007CDC3C /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = vm;
-			productName = vm;
-			productReference = E428DD1823CBFCF8007CDC3C /* libvm.dylib */;
-			productType = "com.apple.product-type.library.dynamic";
+			name = semistacklib;
+			productName = semistacklib;
+			productReference = E428DD6123CC25DB007CDC3C /* libsemistacklib.a */;
+			productType = "com.apple.product-type.library.static";
 		};
 		E4ED360F23C58CEA00AAB637 /* semistack */ = {
 			isa = PBXNativeTarget;
@@ -209,13 +234,14 @@
 		E4ED360823C58CEA00AAB637 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1130;
 				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = "Zeke Medley";
 				TargetAttributes = {
 					E428DD0323CBAFA2007CDC3C = {
 						CreatedOnToolsVersion = 11.3;
 					};
-					E428DD1723CBFCF8007CDC3C = {
+					E428DD6023CC25DB007CDC3C = {
 						CreatedOnToolsVersion = 11.3;
 					};
 					E4ED360F23C58CEA00AAB637 = {
@@ -238,7 +264,7 @@
 			targets = (
 				E4ED360F23C58CEA00AAB637 /* semistack */,
 				E428DD0323CBAFA2007CDC3C /* lust */,
-				E428DD1723CBFCF8007CDC3C /* vm */,
+				E428DD6023CC25DB007CDC3C /* semistacklib */,
 			);
 		};
 /* End PBXProject section */
@@ -254,10 +280,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E428DD1523CBFCF8007CDC3C /* Sources */ = {
+		E428DD5E23CC25DB007CDC3C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E428DD6C23CC267B007CDC3C /* vm.cpp in Sources */,
+				E428DD6D23CC267B007CDC3C /* transform.cpp in Sources */,
+				E428DD6E23CC267B007CDC3C /* module.cpp in Sources */,
+				E428DD6F23CC267B007CDC3C /* instruction.cpp in Sources */,
+				E428DD7023CC267B007CDC3C /* util.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,7 +314,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"USER_HEADER_SEARCH_PATHS[arch=*]" = ../semistack/;
+				"USER_HEADER_SEARCH_PATHS[arch=*]" = "../**";
 			};
 			name = Debug;
 		};
@@ -293,30 +324,26 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"USER_HEADER_SEARCH_PATHS[arch=*]" = ../semistack/;
+				"USER_HEADER_SEARCH_PATHS[arch=*]" = "../**";
 			};
 			name = Release;
 		};
-		E428DD1A23CBFCF8007CDC3C /* Debug */ = {
+		E428DD6323CC25DB007CDC3C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_STYLE = Automatic;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
-		E428DD1B23CBFCF8007CDC3C /* Release */ = {
+		E428DD6423CC25DB007CDC3C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_STYLE = Automatic;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
 				EXECUTABLE_PREFIX = lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -463,11 +490,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E428DD1923CBFCF8007CDC3C /* Build configuration list for PBXNativeTarget "vm" */ = {
+		E428DD6223CC25DB007CDC3C /* Build configuration list for PBXNativeTarget "semistacklib" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E428DD1A23CBFCF8007CDC3C /* Debug */,
-				E428DD1B23CBFCF8007CDC3C /* Release */,
+				E428DD6323CC25DB007CDC3C /* Debug */,
+				E428DD6423CC25DB007CDC3C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

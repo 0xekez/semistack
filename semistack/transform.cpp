@@ -117,37 +117,3 @@ bool transform::linkModules(std::vector<Module> &modules,
     
     return true;
 }
-
-
-#include "doctest.h"
-
-TEST_CASE("assembler output")
-{
-    vm::Module pre("m");
-
-    pre.addInstruction({vm::InstType::jump, "first"});
-    pre.addInstruction({vm::InstType::label, "second"});
-    pre.addInstruction({vm::InstType::pi, 2});
-    pre.addInstruction({vm::InstType::puts, std::nullopt});
-    pre.addInstruction({vm::InstType::exit, std::nullopt});
-    pre.addInstruction({vm::InstType::label, "first"});
-    pre.addInstruction({vm::InstType::pi, 1});
-    pre.addInstruction({vm::InstType::puts, std::nullopt});
-    pre.addInstruction({vm::InstType::jump, "second"});
-
-    // What the module should look like after processing.
-    vm::Module post("m");
-
-    post.addInstruction({vm::InstType::jump, 4});
-    post.addInstruction({vm::InstType::pi, 2});
-    post.addInstruction({vm::InstType::puts, std::nullopt});
-    post.addInstruction({vm::InstType::exit, std::nullopt});
-    post.addInstruction({vm::InstType::pi, 1});
-    post.addInstruction({vm::InstType::puts, std::nullopt});
-    post.addInstruction({vm::InstType::jump, -5});
-
-    vm::transform::assembleModule(pre);
-
-    bool a = (pre == post);
-    CHECK(a);
-}

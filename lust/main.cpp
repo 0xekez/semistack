@@ -13,15 +13,17 @@
 #include "parse.hpp"
 #include "expression.hpp"
 
-#include "util.hpp"
-#include "instruction.hpp"
-#include "module.hpp"
-#include "logger.hpp"
-#include "vm.hpp"
+#include "semistack/util.hpp"
+#include "semistack/instruction.hpp"
+#include "semistack/module.hpp"
+#include "semistack/logger.hpp"
+#include "semistack/vm.hpp"
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
     std::string input = "(+ 2 (+ 4 5))";
+    
+    std::cout << "Compiling: " << input << "\n";
+    
     auto res = lust::parse_expression(lust::tokenize(input));
     
     if ( ! res.has_value() )
@@ -29,45 +31,19 @@ int main(int argc, const char * argv[]) {
         return 1;
     }
     
-    std::function<void(lust::Expression& e)> valuePrinter;
-    valuePrinter = [&](lust::Expression& e)
-    {
-        std::visit(vm::util::overloaded {
-            [](const std::unique_ptr<lust::Number>& n)
-            {
-                std::cout << n->_num;
-            },
-            [&](const std::unique_ptr<lust::List>& le)
-            {
-                std::cout << "( ";
-                for( auto& expr : le->_exprs )
-                {
-                    valuePrinter(expr);
-                    std::cout << " ";
-                }
-                std::cout << ")";
-            },
-            [&](const std::unique_ptr<lust::Symbol>& s)
-            {
-                std::cout << s->_sym;
-            }
-        }, e);
-    };
-    
     lust::Expression& expr = res.value().first;
     
-    valuePrinter(expr);
-    std::cout << "\n";
-    
-    lust::CodegenRes c = lust::codegen(expr);
-    if ( ! c.has_value() ) return 1;
-    
-    std::vector<vm::Instruction> vec = c.value();
-    
     vm::Module m("main");
-    m._instructions = vec;
     
-    vm::logger()->dumpModule(m);
+    bool success = lust::codegen(expr, m);
+    if ( ! success ) return 1;
+    
+    m.addInstruction(vm::InstType::puts);
+    m.addInstruction(vm::InstType::exit);
+    
+    vm::VM v;
+    v.addModule(std::move(m));
+    v.run("main");
     
     return 0;
 }

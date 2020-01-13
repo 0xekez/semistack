@@ -10,52 +10,60 @@
 
 using namespace lust;
 
-CodegenRes lust::codegen(const Expression& e)
+void lust::printExpression(const Expression& e)
+{
+    std::visit(vm::util::overloaded {
+        [](const std::unique_ptr<lust::Number>& n)
+        {
+            std::cout << n->_num;
+        },
+        [&](const std::unique_ptr<lust::List>& le)
+        {
+            std::cout << "( ";
+            for( auto& expr : le->_exprs )
+            {
+                printExpression(expr);
+                std::cout << " ";
+            }
+            std::cout << ")";
+        },
+        [&](const std::unique_ptr<lust::Symbol>& s)
+        {
+            std::cout << s->_sym;
+        }
+    }, e);
+    std::cout << "\n";
+}
+
+bool lust::codegen(const Expression& e, vm::Module& target)
 {
     return std::visit(vm::util::overloaded {
-        [](const std::unique_ptr<lust::Number>& n)-> CodegenRes
+        [&](const std::unique_ptr<lust::Number>& n)-> bool
         {
-            std::vector<vm::Instruction> res;
-            res.push_back({vm::InstType::pi, n->_num});
-            return res;
+            target.addInstruction(vm::InstType::pi, n->_num);
+            return true;
         },
-        [](const std::unique_ptr<lust::List>& le)-> CodegenRes
+        [&](const std::unique_ptr<lust::List>& le)-> bool
         {
-            if (le->_exprs.size() != 3)
+            auto& exprs = le->_exprs;
+            for (auto it = exprs.rbegin(); it != exprs.rend(); ++it)
             {
-                vm::logger()->error("Only two arguments supported.");
-                return std::nullopt;
+                bool res = codegen(*it, target);
+                if ( ! res )
+                    return false;
             }
-            
-            std::vector<vm::Instruction> result;
-            
-            auto it = le->_exprs.rbegin();
-            while (it != le->_exprs.rend())
-            {
-                auto res = codegen(*it);
-                if ( ! res.has_value() )
-                    return std::nullopt;
-                
-                auto& resv = res.value();
-                
-                result.insert(result.end(), resv.begin(), resv.end());
-                
-                ++it;
-            }
-            
-            return result;
+            return true;
         },
-        [](const std::unique_ptr<lust::Symbol>& s)-> CodegenRes
+        [&](const std::unique_ptr<lust::Symbol>& s)-> bool
         {
             if (s->_sym == "+")
             {
-                std::vector<vm::Instruction> res;
-                res.push_back({vm::InstType::add, std::nullopt});
-                return res;
+                target.addInstruction(vm::InstType::add);
+                return true;
             } else
             {
                 vm::logger()->error("Unhandled symbol: " + s->_sym);
-                return std::nullopt;
+                return false;
             }
         }
     }, e);

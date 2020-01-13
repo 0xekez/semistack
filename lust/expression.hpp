@@ -15,8 +15,10 @@
 #include <list>
 
 #include "instruction.hpp"
-#include "util.hpp"
-#include "logger.hpp"
+
+#include "semistack/util.hpp"
+#include "semistack/logger.hpp"
+#include "semistack/module.hpp"
 
 namespace lust {
 
@@ -44,8 +46,7 @@ struct Symbol
     Symbol(std::string sym): _sym(std::move(sym)) {}
 };
 
-using CodegenRes = std::optional<std::vector<vm::Instruction>>;
-
-CodegenRes codegen(const Expression& e);
+void printExpression(const Expression& e);
+bool codegen(const Expression& e, vm::Module& target);
 
 }

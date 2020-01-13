@@ -9,7 +9,7 @@
 #include <sstream>
 
 #include "parse.hpp"
-#include "logger.hpp"
+#include "semistack/logger.hpp"
 
 using namespace lust;
 
@@ -43,7 +43,6 @@ std::list<std::string> lust::tokenize(std::string source)
 
 ParseResult lust::parse_expression(std::list<std::string> tokens)
 {
-    vm::logger()->debug("parse expression");
     std::string front = tokens.front();
     tokens.pop_front();
     
@@ -65,7 +64,6 @@ ParseResult lust::parse_expression(std::list<std::string> tokens)
 
 ParseResult lust::parse_seq(std::list<std::string> tokens)
 {
-    vm::logger()->debug("parse seq");
     std::list<lust::Expression> sequence;
     
     while (true)
@@ -97,7 +95,6 @@ ParseResult lust::parse_seq(std::list<std::string> tokens)
 
 std::optional<Expression> lust::parse_atom(std::string token)
 {
-    vm::logger()->debug("parse atom.");
     try {
         float value = std::stof(token.c_str());
         return std::make_unique<Number>(value);
