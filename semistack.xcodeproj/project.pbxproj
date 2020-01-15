@@ -9,23 +9,24 @@
 /* Begin PBXBuildFile section */
 		E428DCF223C79F6D007CDC3C /* instruction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E428DCF023C79F6D007CDC3C /* instruction.cpp */; };
 		E428DCF523C7A225007CDC3C /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E428DCF323C7A225007CDC3C /* util.cpp */; };
-		E428DCF823C7A88B007CDC3C /* module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E428DCF623C7A88B007CDC3C /* module.cpp */; };
+		E428DCF823C7A88B007CDC3C /* function.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E428DCF623C7A88B007CDC3C /* function.cpp */; };
 		E428DCFC23C7FB69007CDC3C /* vm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E428DCFA23C7FB69007CDC3C /* vm.cpp */; };
 		E428DCFF23CA6A9F007CDC3C /* transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E428DCFD23CA6A9F007CDC3C /* transform.cpp */; };
 		E428DD0723CBAFA2007CDC3C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E428DD0623CBAFA2007CDC3C /* main.cpp */; };
 		E428DD1023CBB12F007CDC3C /* parse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E428DD0E23CBB12F007CDC3C /* parse.cpp */; };
 		E428DD1323CBF660007CDC3C /* expression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E428DD1223CBF660007CDC3C /* expression.cpp */; };
 		E428DD6623CC266C007CDC3C /* transform.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E428DCFE23CA6A9F007CDC3C /* transform.hpp */; };
-		E428DD6723CC266C007CDC3C /* module.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E428DCF723C7A88B007CDC3C /* module.hpp */; };
+		E428DD6723CC266C007CDC3C /* function.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E428DCF723C7A88B007CDC3C /* function.hpp */; };
 		E428DD6923CC266C007CDC3C /* logger.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E428DCEF23C79D7A007CDC3C /* logger.hpp */; };
 		E428DD6A23CC266C007CDC3C /* instruction.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E428DCF123C79F6D007CDC3C /* instruction.hpp */; };
 		E428DD6B23CC266C007CDC3C /* util.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E428DCF423C7A225007CDC3C /* util.hpp */; };
 		E428DD6C23CC267B007CDC3C /* vm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E428DCFA23C7FB69007CDC3C /* vm.cpp */; };
 		E428DD6D23CC267B007CDC3C /* transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E428DCFD23CA6A9F007CDC3C /* transform.cpp */; };
-		E428DD6E23CC267B007CDC3C /* module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E428DCF623C7A88B007CDC3C /* module.cpp */; };
+		E428DD6E23CC267B007CDC3C /* function.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E428DCF623C7A88B007CDC3C /* function.cpp */; };
 		E428DD6F23CC267B007CDC3C /* instruction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E428DCF023C79F6D007CDC3C /* instruction.cpp */; };
 		E428DD7023CC267B007CDC3C /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E428DCF323C7A225007CDC3C /* util.cpp */; };
 		E428DD7123CC26B3007CDC3C /* libsemistacklib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E428DD6123CC25DB007CDC3C /* libsemistacklib.a */; };
+		E428DD7323CD0FB2007CDC3C /* value.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E428DD7223CD0FB2007CDC3C /* value.hpp */; };
 		E4ED361423C58CEA00AAB637 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4ED361323C58CEA00AAB637 /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -56,8 +57,8 @@
 		E428DCF123C79F6D007CDC3C /* instruction.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = instruction.hpp; sourceTree = "<group>"; };
 		E428DCF323C7A225007CDC3C /* util.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = util.cpp; sourceTree = "<group>"; };
 		E428DCF423C7A225007CDC3C /* util.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = util.hpp; sourceTree = "<group>"; };
-		E428DCF623C7A88B007CDC3C /* module.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = module.cpp; sourceTree = "<group>"; };
-		E428DCF723C7A88B007CDC3C /* module.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = module.hpp; sourceTree = "<group>"; };
+		E428DCF623C7A88B007CDC3C /* function.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = function.cpp; sourceTree = "<group>"; };
+		E428DCF723C7A88B007CDC3C /* function.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = function.hpp; sourceTree = "<group>"; };
 		E428DCF923C7AD5A007CDC3C /* doctest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = doctest.h; sourceTree = "<group>"; };
 		E428DCFA23C7FB69007CDC3C /* vm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = vm.cpp; sourceTree = "<group>"; };
 		E428DCFB23C7FB69007CDC3C /* vm.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = vm.hpp; sourceTree = "<group>"; };
@@ -70,6 +71,7 @@
 		E428DD1123CBB30B007CDC3C /* expression.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = expression.hpp; sourceTree = "<group>"; };
 		E428DD1223CBF660007CDC3C /* expression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = expression.cpp; sourceTree = "<group>"; };
 		E428DD6123CC25DB007CDC3C /* libsemistacklib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libsemistacklib.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		E428DD7223CD0FB2007CDC3C /* value.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = value.hpp; sourceTree = "<group>"; };
 		E4ED361023C58CEA00AAB637 /* semistack */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = semistack; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4ED361323C58CEA00AAB637 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -147,11 +149,12 @@
 				E428DCFD23CA6A9F007CDC3C /* transform.cpp */,
 				E428DCFE23CA6A9F007CDC3C /* transform.hpp */,
 				E428DCFB23C7FB69007CDC3C /* vm.hpp */,
-				E428DCF623C7A88B007CDC3C /* module.cpp */,
-				E428DCF723C7A88B007CDC3C /* module.hpp */,
+				E428DCF623C7A88B007CDC3C /* function.cpp */,
+				E428DCF723C7A88B007CDC3C /* function.hpp */,
 				E428DCF923C7AD5A007CDC3C /* doctest.h */,
 				E428DCEF23C79D7A007CDC3C /* logger.hpp */,
 				E428DCF123C79F6D007CDC3C /* instruction.hpp */,
+				E428DD7223CD0FB2007CDC3C /* value.hpp */,
 				E428DCF023C79F6D007CDC3C /* instruction.cpp */,
 				E428DCF323C7A225007CDC3C /* util.cpp */,
 				E428DCF423C7A225007CDC3C /* util.hpp */,
@@ -166,8 +169,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E428DD7323CD0FB2007CDC3C /* value.hpp in Headers */,
 				E428DD6623CC266C007CDC3C /* transform.hpp in Headers */,
-				E428DD6723CC266C007CDC3C /* module.hpp in Headers */,
+				E428DD6723CC266C007CDC3C /* function.hpp in Headers */,
 				E428DD6923CC266C007CDC3C /* logger.hpp in Headers */,
 				E428DD6A23CC266C007CDC3C /* instruction.hpp in Headers */,
 				E428DD6B23CC266C007CDC3C /* util.hpp in Headers */,
@@ -286,7 +290,7 @@
 			files = (
 				E428DD6C23CC267B007CDC3C /* vm.cpp in Sources */,
 				E428DD6D23CC267B007CDC3C /* transform.cpp in Sources */,
-				E428DD6E23CC267B007CDC3C /* module.cpp in Sources */,
+				E428DD6E23CC267B007CDC3C /* function.cpp in Sources */,
 				E428DD6F23CC267B007CDC3C /* instruction.cpp in Sources */,
 				E428DD7023CC267B007CDC3C /* util.cpp in Sources */,
 			);
@@ -299,7 +303,7 @@
 				E428DCFC23C7FB69007CDC3C /* vm.cpp in Sources */,
 				E428DCF223C79F6D007CDC3C /* instruction.cpp in Sources */,
 				E428DCFF23CA6A9F007CDC3C /* transform.cpp in Sources */,
-				E428DCF823C7A88B007CDC3C /* module.cpp in Sources */,
+				E428DCF823C7A88B007CDC3C /* function.cpp in Sources */,
 				E4ED361423C58CEA00AAB637 /* main.cpp in Sources */,
 				E428DCF523C7A225007CDC3C /* util.cpp in Sources */,
 			);

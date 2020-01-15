@@ -9,12 +9,13 @@
 #include "instruction.hpp"
 #include "logger.hpp"
 #include "util.hpp"
+#include "value.hpp"
 
 #include <variant>
 
 using namespace vm;
 
-std::string vm::to_string(InstType i)
+std::string vm::to_string(const InstType& i)
 {
     switch (i)
     {
@@ -30,6 +31,8 @@ std::string vm::to_string(InstType i)
             return "mul";
         case InstType::div:
             return "div";
+        case InstType::jump:
+            return "jump";
         case InstType::jeq:
             return "jeq";
         case InstType::jneq:
@@ -52,32 +55,40 @@ std::string vm::to_string(InstType i)
             return "lg";
         case InstType::ret:
             return "ret";
+        case InstType::label:
+            return "label";
+        case InstType::exit:
+            return "exit";
         default:
             logger()->error("Unhandled instruction type in to_string.");
             return "";
     }
 }
 
-std::string vm::to_string(Value v)
+std::string vm::to_string(const Value& v)
 {
     return std::visit(util::overloaded {
-        [](float f)
+        [](float f)-> std::string
         {
             return std::to_string(f);
         },
-        [](std::string s)
+        [](const Object& obj)-> std::string
         {
-            return s;
-        },
-        [](auto a)
-        {
-            logger()->error("Unhandled type in immediate to_string.");
-            return "";
+            return std::visit(util::overloaded {
+                [](const std::string& s)-> std::string
+                {
+                    return s;
+                },
+                [](const std::shared_ptr<Function>&)-> std::string
+                {
+                    return "<function>";
+                }
+            }, obj);
         }
     }, v);
 }
 
-std::string vm::to_string(Immediate i)
+std::string vm::to_string(const Immediate& i)
 {
     if (i.has_value())
     {
@@ -86,7 +97,7 @@ std::string vm::to_string(Immediate i)
     return "";
 }
 
-std::string vm::to_string(Instruction i)
+std::string vm::to_string(const Instruction& i)
 {
     auto r = ::to_string(i.first);
     if (i.second.has_value())
@@ -94,4 +105,38 @@ std::string vm::to_string(Instruction i)
         r += " " + ::to_string(i.second);
     }
     return r;
+}
+
+bool vm::operator==(const Instruction& l, const Instruction& r)
+{
+    bool same = (l.first == r.first);
+    if (l.second.has_value())
+    {
+        same &= r.second.has_value();
+        same &= std::visit(util::overloaded {
+            [&](float f)
+            {
+                return f == std::get<float>(r.second.value());
+            },
+            [&](const Object& lobj)
+            {
+                const auto& robj = std::get<Object>(r.second.value());
+                if (robj.index() != lobj.index()) return false;
+                return std::visit(util::overloaded {
+                    [&](const std::string& s)
+                    {
+                        return s == std::get<std::string>(lobj);
+                    },
+                    [&](const std::shared_ptr<Function>& fn)
+                    {
+                        return *fn == *std::get<std::shared_ptr<Function>>(robj);
+                    }
+                }, lobj);
+            }
+        }, l.second.value());
+    } else
+    {
+        same &= (not r.second.has_value());
+    }
+    return same;
 }

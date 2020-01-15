@@ -8,20 +8,20 @@
 #include <algorithm>
 
 #include "transform.hpp"
-#include "module.hpp"
+#include "function.hpp"
 #include "instruction.hpp"
 #include "logger.hpp"
+#include "util.hpp"
 
 using namespace vm;
 
-bool transform::assembleModule(Module& m)
+bool transform::assembleFunction(Function& m)
 {
     // 1. Collect locations of and remove all labels from Module.
-    auto& iList = m._instructions;
     std::vector<Instruction> unlabeled;
     std::map<std::string, size_t> labelLocs;
     
-    for (Instruction& i : iList)
+    for (Instruction& i : m._instructions)
     {
         if (i.first == InstType::label)
         {
@@ -30,21 +30,18 @@ bool transform::assembleModule(Module& m)
                 logger()->error("No immediate for label instruction.");
             }
             
-            Value im = i.second.value();
-            
-            if (! std::holds_alternative<std::string>(im))
+            auto sq = util::get<std::string>(i.second.value());
+            if ( ! sq )
             {
-                logger()->error("Wrong immediate type for label instruction.");
+                logger()->error("Non-string immediate for label instruction.");
                 return false;
             }
             
-            std::string labelName = std::get<std::string>(im);
-            auto [where, success] = labelLocs.insert({labelName,
-                                                      unlabeled.size()});
-            
+            const std::string& s = sq.value();
+            auto [where, success] = labelLocs.insert({s, unlabeled.size()});
             if ( ! success )
             {
-                logger()->error("Failed to insert label into lookup table");
+                logger()->error("Failed to insert label into lookup table.");
                 return false;
             }
         } else
@@ -66,13 +63,18 @@ bool transform::assembleModule(Module& m)
         // NOTE: need to support all jump instructions here.
         if (isJump(i.first))
         {
-            assert(i.second.has_value() && "No immediate for jump.");
-            Value im = i.second.value();
-            
-            // Possible to add absolute jumps. We ignore those.
-            if (std::holds_alternative<std::string>(im))
+            if ( ! i.second.has_value() )
             {
-                std::string jumpTarget = std::get<std::string>(im);
+                logger()->error("No immediate for jump");
+                return false;
+            }
+            
+            Value& im = i.second.value();
+            
+            auto stringq = util::get<std::string>(im);
+            if (stringq)
+            {
+                const std::string& jumpTarget = stringq.value();
                 auto where = labelLocs.find(jumpTarget);
                 if (where != labelLocs.end() )
                 {
@@ -84,12 +86,13 @@ bool transform::assembleModule(Module& m)
         ++loc;
     }
     
-    m._instructions = unlabeled;
+    m._instructions = std::move(unlabeled);
     return true;
 }
 
-bool transform::linkModules(std::vector<Module> &modules,
-                     std::map<std::string, std::vector<Module>::size_type> table)
+bool transform::linkFunctions(std::vector<Function>& modules,
+                              const std::map<std::string,
+                              std::vector<Function>::size_type>& table)
 {
     // 2. Find all unresolved jump instructions.
     // 3. Resolve them to locations in our vector.
@@ -105,11 +108,11 @@ bool transform::linkModules(std::vector<Module> &modules,
                     return false;
                 }
 
-                if (std::holds_alternative<std::string>(instruction.second.value()))
+                auto sq = util::get<std::string>(instruction.second.value());
+                if (sq)
                 {
-                    auto index = table.at(
-                             std::get<std::string>(instruction.second.value()));
-                    instruction.second = index;
+                    const std::string& s = sq.value();
+                    instruction.second = table.at(s);
                 }
             }
         }

@@ -16,6 +16,18 @@ The trouble with a stack based VM is that you only ever have access to one value
 2. We'll need a call stack in addition to a regular stack. The call stack will hold Frames.
 3. We'll need some concept of a Frame. This will need to hold local variables, and a program counter to tell where they left off when / if they call another function and get returned.
 
+## Who Owns Values?
+
+In adding support for closures, we now need to ponder the age old question of who owns what. There are two ways that values can be added to the stack in our virtual machine:
+
+1. They can be put there by `pi`. The instruction needs to be unmodified by the operation so that it can be run again. It is imperative that **instructions are immutable**.
+2. They can be put there as the result of an operation. In this case they should be considered owned by the stack and their resources should be released once they are popped from the stack.
+
+This works fine when all of our types are small and copyable. But what about larger types like functions? We don't want to copy and move around functions. They are heavy because they hold instructions themselves, so we instead pass around function pointers. Now we need to start thinking about who owns a function and more generally, any object type that we'd like to pass around on the stack. I can think of two ownership schemes off the top of my head:
+
+1. Use automatic reference counting. Pass `std::shared_ptr` object around.
+2. Write a garbage collector. This is the approach of crafting interpreters and Lua. Doing this would likely be fairly complicated.
+
 ## Closures
 
 These are going to be hard. [Here](https://craftinginterpreters.com/closures.html) is Crafting Interpreters implementation. Basically, when resolving a variable, we need to first search the current scope, then the closures of that scope, and the global variables. Sounds good. The big question though is how to indicate to the VM that we'd like to search the closures?
@@ -29,6 +41,22 @@ C gets around this by allowing for function pointers and the likes but even then
 Another problem that I foresee, while we're on the topic, is how we would even return a function from another function. We have no notion of pointers and don't have function objects in the VM, so it seems unlikely that we could even do that as it stands.
 
 **Moral of the story:** our current implementation does not, and will not support first class functions and closures. At this point I'm in favor of stepping away from this for a little bit, doing some more reading, and then coming back to tear it up and put closures in this bad boy.
+
+### Results Of More Reading
+
+**Contention**: At parse / compile time we can determine if a variable is either local, in a closure, or a global variable.
+
+**Small Case:** For example, we're already working under the assumption that we can tell if a variable is global or local a parse time. Because Lust only allows the creation of local variables as arguments to functions, when generating code for a function, any variable that is referenced that is not an argument to that function must be global.
+
+**Our Case:** With closures this gets a little more complicated, but I still think it's possible. Lets go ahead and assume we've implemented some sort of upvalue like Lua has.
+
+Say we see a symbol. First, we check if it's a local variable. To do that we just look at the function were currently compiling, if the symbol is one of its arguments then we're done. Otherwise, we look at the local variables for the function that this one belongs to, etc, etc. If it's not in any of those, then it must be a global variable.
+
+In order to do this, we'll need some way for the VM to have first class functions. This is fine though as we need to do this anyway.
+
+## More Types
+
+In order to achieve our lofty goals of having first class functions in Lust and languages that target the VM, we're going to need to make functions first class types.
 
 # Version 1
 

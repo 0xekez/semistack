@@ -18,7 +18,7 @@
 
 //  Call frame stores local variables for the session. VM holds global state.
 
-#include "module.hpp"
+#include "function.hpp"
 #include "instruction.hpp"
 
 #include <vector>
@@ -30,7 +30,7 @@
 
 namespace vm {
 
-using ModuleIndex = std::vector<Module>::size_type;
+using FnIndex = std::vector<Function>::size_type;
 
 enum class ExitStatus: std::uint8_t
 {
@@ -44,15 +44,15 @@ struct CallFrame
 {
     // The instruction that this frame is on.
     std::size_t _pc;
-    // The Module that this frame is executing.
-    ModuleIndex _moduleIndex;
+    // The Function that this frame is executing.
+    FnIndex _fnIndex;
     // Local variables inside of this call frame.
     // NOTE: This means that we're restricting a program to only 256 local
     // variables at a time. In exchange, we get some performance, and our sl, ll
     // instructions are made simpler because they can just specify an index.
     std::array<Value, 256> _locals;
     
-    CallFrame(ModuleIndex mi): _moduleIndex(mi), _pc(0) {}
+    CallFrame(FnIndex mi): _fnIndex(mi), _pc(0) {}
 };
 
 class VM
@@ -62,21 +62,21 @@ public:
     VM(std::function<void(std::string)> fn): _outputFn(std::move(fn)) {}
     
     // Adds a module to the VM.
-    bool addModule(vm::Module m);
+    bool addFunction(vm::Function m, std::string name);
     // Runs the selected module.
     ExitStatus run(std::string module_name);
     
 private:
-    ExitStatus runModule(const vm::Module& m);
-    ExitStatus runInstruction(const Instruction& instruction);
+    ExitStatus runFunction(const vm::Function& m);
+    ExitStatus runInstruction(Instruction& instruction);
     
     std::function<void(std::string)> _outputFn;
     
     std::array<Value, 256> _globals;
     
-    std::vector<Module> _modules;
+    std::vector<Function> _functions;
     // Maps module name to module index.
-    std::map<std::string, ModuleIndex> _moduleLookup;
+    std::map<std::string, FnIndex> _fnLookup;
     
     std::stack<Value> _valueStack;
     std::stack<CallFrame> _callStack;

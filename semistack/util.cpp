@@ -7,3 +7,6 @@
 //
 
 #include "util.hpp"
+
+//  Rampant use of templates in util.hpp mean that so far this file is, sadly,
+//  unused.

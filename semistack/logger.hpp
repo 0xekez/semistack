@@ -10,7 +10,7 @@
 #include <string>
 #include <iostream>
 
-#include "module.hpp"
+#include "function.hpp"
 
 namespace {
 
@@ -56,12 +56,11 @@ public:
         return _history;
     }
     
-    std::string dumpModule(const vm::Module& m)
+    std::string dumpFn(const vm::Function& fn)
     {
-        auto& ilist = m._instructions;
-        std::string res{"Module: "};
-        res += m._name + "\n";
-        res += std::string(m._name.size() + 8, '-') + "\n";
+        auto& ilist = fn._instructions;
+        std::string res{"Function: "};
+        res += std::string(8, '-') + "\n";
         
         for(const auto& i : ilist)
         {

@@ -8,16 +8,16 @@
 
 #pragma once
 
-#include "module.hpp"
+#include "function.hpp"
 #include <map>
 #include <vector>
 
 namespace vm {
 namespace transform {
 
-bool assembleModule(Module& m);
-bool linkModules(std::vector<Module>& modules,
-                 std::map<std::string, std::vector<Module>::size_type> table);
+bool assembleFunction(Function& fn);
+bool linkFunctions(std::vector<Function>& modules,
+         const std::map<std::string, std::vector<Function>::size_type>& table);
 
 }
 

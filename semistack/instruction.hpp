@@ -12,18 +12,19 @@
 #include <variant>
 #include <string>
 
-namespace vm
-{
+#include "value.hpp"
+
+namespace vm {
 
 enum class InstType
 {
-    pi,     // Push immediate.
+    pi,     // Push immediate..
     sl,     // Store local.
     ll,     // Load local.
     sg,     // Store global.
     lg,     // Load global.
     
-    puts,   // Pops and prints top of stack.
+    puts,   // Pops and prints top of stack..
     copy,   // Coppies the value on top of the stack.
     
     exit,   // Stops execution.
@@ -47,13 +48,15 @@ enum class InstType
            // before the code has entered the preprocessor.
 };
 
-using Value = std::variant<float, std::string>;
 using Immediate = std::optional<Value>;
 using Instruction = std::pair<InstType, Immediate>;
 
 // to_string methods for VM types.
-std::string to_string(InstType i);
-std::string to_string(Value v);
-std::string to_string(Immediate i);
-std::string to_string(Instruction i);
+std::string to_string(const InstType& i);
+std::string to_string(const Value& v);
+std::string to_string(const Immediate& i);
+std::string to_string(const Instruction& i);
+
+bool operator==(const Instruction& l, const Instruction& r);
+
 }
