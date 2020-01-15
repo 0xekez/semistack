@@ -28,6 +28,8 @@ This works fine when all of our types are small and copyable. But what about lar
 1. Use automatic reference counting. Pass `std::shared_ptr` object around.
 2. Write a garbage collector. This is the approach of crafting interpreters and Lua. Doing this would likely be fairly complicated.
 
+I'll stick with automatic reference counting for now. If there is compelling reasons to add a garbage collector  I'll look at it, but I doubt there will ever be enough objects
+
 ## Closures
 
 These are going to be hard. [Here](https://craftinginterpreters.com/closures.html) is Crafting Interpreters implementation. Basically, when resolving a variable, we need to first search the current scope, then the closures of that scope, and the global variables. Sounds good. The big question though is how to indicate to the VM that we'd like to search the closures?
@@ -48,7 +50,7 @@ Another problem that I foresee, while we're on the topic, is how we would even r
 
 **Small Case:** For example, we're already working under the assumption that we can tell if a variable is global or local a parse time. Because Lust only allows the creation of local variables as arguments to functions, when generating code for a function, any variable that is referenced that is not an argument to that function must be global.
 
-**Our Case:** With closures this gets a little more complicated, but I still think it's possible. Lets go ahead and assume we've implemented some sort of upvalue like Lua has.
+**Our Case:** With closures this gets a little more complicated, but I still think it's possible. Let's go ahead and assume we've implemented some sort of upvalue like Lua has.
 
 Say we see a symbol. First, we check if it's a local variable. To do that we just look at the function were currently compiling, if the symbol is one of its arguments then we're done. Otherwise, we look at the local variables for the function that this one belongs to, etc, etc. If it's not in any of those, then it must be a global variable.
 
@@ -56,7 +58,11 @@ In order to do this, we'll need some way for the VM to have first class function
 
 ## More Types
 
-In order to achieve our lofty goals of having first class functions in Lust and languages that target the VM, we're going to need to make functions first class types.
+In order to achieve our lofty goals of having first class functions in Lust and languages that target the VM, we're going to need to make functions first class types. Did that done that.
+
+Up next:
+
+1. Modify call instruction so that if can take a function pointer as an argument.
 
 # Version 1
 

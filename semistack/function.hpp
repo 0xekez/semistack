@@ -1,5 +1,5 @@
 //
-//  module.hpp
+//  function.hpp
 //  semistack
 //
 //  Created by Zeke Medley on 1/9/20.

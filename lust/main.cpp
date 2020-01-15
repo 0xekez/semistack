@@ -15,7 +15,7 @@
 
 #include "semistack/util.hpp"
 #include "semistack/instruction.hpp"
-#include "semistack/module.hpp"
+#include "semistack/function.hpp"
 #include "semistack/logger.hpp"
 #include "semistack/vm.hpp"
 

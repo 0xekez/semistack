@@ -6,7 +6,7 @@
 //  Copyright © 2020 Zeke Medley. All rights reserved.
 //
 
-//  Add modules to the VM. VM processes them (takes away labels, replaces with
+//  Add fns to the VM. VM processes them (takes away labels, replaces with
 //  absolute jumps). When we'd like to run the VM, add a new Frame to the stack
 //  and then continue execution as normal. We should be able to largely ignore
 //  the Call Frame for everything except local variables and program counter
@@ -61,21 +61,21 @@ public:
     VM(): _outputFn([](std::string s){ std::cout << s << "\n"; }) {}
     VM(std::function<void(std::string)> fn): _outputFn(std::move(fn)) {}
     
-    // Adds a module to the VM.
+    // Adds a function to the VM and associate it with name.
     bool addFunction(vm::Function m, std::string name);
-    // Runs the selected module.
-    ExitStatus run(std::string module_name);
+    // Runs the selected function.
+    ExitStatus run(std::string fn_name);
     
 private:
     ExitStatus runFunction(const vm::Function& m);
-    ExitStatus runInstruction(Instruction& instruction);
+    ExitStatus runInstruction(const Instruction& instruction);
     
     std::function<void(std::string)> _outputFn;
     
     std::array<Value, 256> _globals;
     
     std::vector<Function> _functions;
-    // Maps module name to module index.
+    // Maps function name to function index.
     std::map<std::string, FnIndex> _fnLookup;
     
     std::stack<Value> _valueStack;

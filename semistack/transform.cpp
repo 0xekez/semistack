@@ -17,7 +17,7 @@ using namespace vm;
 
 bool transform::assembleFunction(Function& m)
 {
-    // 1. Collect locations of and remove all labels from Module.
+    // 1. Collect locations of and remove all labels from function.
     std::vector<Instruction> unlabeled;
     std::map<std::string, size_t> labelLocs;
     
@@ -90,15 +90,15 @@ bool transform::assembleFunction(Function& m)
     return true;
 }
 
-bool transform::linkFunctions(std::vector<Function>& modules,
+bool transform::linkFunctions(std::vector<Function>& functions,
                               const std::map<std::string,
                               std::vector<Function>::size_type>& table)
 {
     // 2. Find all unresolved jump instructions.
     // 3. Resolve them to locations in our vector.
-    for (auto& module : modules)
+    for (auto& fn : functions)
     {
-        for (auto& instruction : module._instructions)
+        for (auto& instruction : fn._instructions)
         {
             if (instruction.first == InstType::call)
             {

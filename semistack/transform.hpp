@@ -16,7 +16,7 @@ namespace vm {
 namespace transform {
 
 bool assembleFunction(Function& fn);
-bool linkFunctions(std::vector<Function>& modules,
+bool linkFunctions(std::vector<Function>& functions,
          const std::map<std::string, std::vector<Function>::size_type>& table);
 
 }

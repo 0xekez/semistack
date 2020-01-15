@@ -16,7 +16,7 @@
 //  a value that holds information about its closure and a list of instructions
 //  to be run when it is called. As a result, it likely makes sense to change
 //  things up a little bit and make functions the things that you add code to
-//  rather than Modules.
+//  rather than Functions.
 
 #include <variant>
 #include <memory>
