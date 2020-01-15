@@ -63,6 +63,9 @@ In order to achieve our lofty goals of having first class functions in Lust and 
 Up next:
 
 1. Modify call instruction so that if can take a function pointer as an argument.
+2. Add get and make upvalue instructions - and in turn implement automatic up value handling in the VM.
+
+I think that now is probably a good time to go back into Lust and go until we get stuck. In order to work out more up value Function details, we're going to need to know more about its requirements. Right now we don't have any unique behavior Functions, so we're in a great place to work out how they're actually going to work.
 
 # Version 1
 

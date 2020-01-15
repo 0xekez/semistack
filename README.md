@@ -46,12 +46,6 @@ int main(int argc, const char * argv[])
 }
 ```
 
-
-
-# VM
-
-The end goal here is to write a simple virtual machine that I can later compile programming languages that I've written to. This is still a work in progress and this doccument holds my notes on the whole thing so far.
-
 ## Types of Virtual Machines
 
 There are two primary types of VMs: stack machines, and register ones. 
@@ -86,3 +80,5 @@ In an effort to keep the simplicity of a stack machine and maintain the ability 
     done:
       ret
 ```
+
+See the unit tests in `main.cpp` for an example of how this looks when using the C++ api.
