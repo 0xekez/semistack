@@ -27,6 +27,7 @@
 		E428DD7023CC267B007CDC3C /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E428DCF323C7A225007CDC3C /* util.cpp */; };
 		E428DD7123CC26B3007CDC3C /* libsemistacklib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E428DD6123CC25DB007CDC3C /* libsemistacklib.a */; };
 		E428DD7323CD0FB2007CDC3C /* value.hpp in Headers */ = {isa = PBXBuildFile; fileRef = E428DD7223CD0FB2007CDC3C /* value.hpp */; };
+		E44F4E6023D10E6400F4397F /* compiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E44F4E5E23D10E6400F4397F /* compiler.cpp */; };
 		E4ED361423C58CEA00AAB637 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4ED361323C58CEA00AAB637 /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -72,6 +73,8 @@
 		E428DD1223CBF660007CDC3C /* expression.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = expression.cpp; sourceTree = "<group>"; };
 		E428DD6123CC25DB007CDC3C /* libsemistacklib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libsemistacklib.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E428DD7223CD0FB2007CDC3C /* value.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = value.hpp; sourceTree = "<group>"; };
+		E44F4E5E23D10E6400F4397F /* compiler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = compiler.cpp; sourceTree = "<group>"; };
+		E44F4E5F23D10E6400F4397F /* compiler.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = compiler.hpp; sourceTree = "<group>"; };
 		E4ED361023C58CEA00AAB637 /* semistack */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = semistack; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4ED361323C58CEA00AAB637 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -110,6 +113,8 @@
 				E428DD0F23CBB12F007CDC3C /* parse.hpp */,
 				E428DD1123CBB30B007CDC3C /* expression.hpp */,
 				E428DD1223CBF660007CDC3C /* expression.cpp */,
+				E44F4E5E23D10E6400F4397F /* compiler.cpp */,
+				E44F4E5F23D10E6400F4397F /* compiler.hpp */,
 			);
 			path = lust;
 			sourceTree = "<group>";
@@ -278,6 +283,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E44F4E6023D10E6400F4397F /* compiler.cpp in Sources */,
 				E428DD1323CBF660007CDC3C /* expression.cpp in Sources */,
 				E428DD1023CBB12F007CDC3C /* parse.cpp in Sources */,
 				E428DD0723CBAFA2007CDC3C /* main.cpp in Sources */,

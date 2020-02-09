@@ -18,14 +18,15 @@
 
 #include "semistack/util.hpp"
 #include "semistack/logger.hpp"
-#include "semistack/module.hpp"
+#include "semistack/function.hpp"
 
 namespace lust {
 
 using Expression = std::variant<
                         std::unique_ptr<struct Number>,
                         std::unique_ptr<struct List>,
-                        std::unique_ptr<struct Symbol>>;
+                        std::unique_ptr<struct Symbol>,
+                        std::unique_ptr<struct Function>>;
 
 struct List
 {
@@ -46,7 +47,14 @@ struct Symbol
     Symbol(std::string sym): _sym(std::move(sym)) {}
 };
 
+struct Function
+{
+    // For scope resolution and call verification (correct num of args).
+    std::vector<std::string> _args;
+    Expression _body;
+};
+
 void printExpression(const Expression& e);
-bool codegen(const Expression& e, vm::Module& target);
+bool codegen(const Expression& e, vm::Function& target);
 
 }

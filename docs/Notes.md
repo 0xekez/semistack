@@ -2,7 +2,40 @@
 
 The following are my notes as I work on this project.
 
+## Speed Measurements
 
+Running against Lox with -Ofast, fib(30):
+
+Lox - `21.20s user 0.05s system 99% cpu 21.332 total`
+
+```python
+fun fib(x)
+{
+    if (x < 2)
+        return x;
+    return fib(x - 1) + fityb(x - 2);
+}
+
+print fib(30);
+```
+
+Semistack - `1.64s user 0.01s system 99% cpu 1.659 total`
+
+Haskell - `0.01s user 0.00s system 58% cpu 0.020 total`
+
+```haskell
+import Control.Parallel
+
+--  type annotations
+fib :: Int -> Int
+fib 0 = 0
+fib 1 = 1
+fib n = fib (n - 1) + fib (n - 2)
+
+main = print (fib 30)
+```
+
+Still a ways to go ;) Admittedly, I believe Haskell compiles to machine code.
 
 # Version 2
 
@@ -63,6 +96,7 @@ In order to achieve our lofty goals of having first class functions in Lust and 
 Up next:
 
 1. Modify call instruction so that if can take a function pointer as an argument.
+   - The same thing will need to happen for SL, LL, SG, and LG instructions. We'll likely need to do some work in the preprocessor here to replace function names with their indicies.
 2. Add get and make upvalue instructions - and in turn implement automatic up value handling in the VM.
 
 I think that now is probably a good time to go back into Lust and go until we get stuck. In order to work out more up value Function details, we're going to need to know more about its requirements. Right now we don't have any unique behavior Functions, so we're in a great place to work out how they're actually going to work.

@@ -33,7 +33,6 @@ int main(int argc, const char * argv[]) {
     // Query flags (and --exit) rely on this.
     if (ctx.shouldExit())
         return res;
-    
     return 0;
 }
 
