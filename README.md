@@ -32,9 +32,11 @@ To get that to run in the VM, you'll need to call it from somewhere and we can w
 #include "vm.hpp"
 #include "module.hpp"
 
+using namespace vm;
+
 int main(int argc, const char * argv[])
 {
-    vm::Module main("main");
+    Module main("main");
     
     main.addInstruction(InstType::pi, "Hello world!");
     main.addInstruction(InstType::puts);
